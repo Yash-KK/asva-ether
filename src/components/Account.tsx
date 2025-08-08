@@ -16,7 +16,7 @@ export function Account() {
   const { data: ensAvatar } = useEnsAvatar({ name: ensName! });
 
   return (
-    <div className="flex items-center bg-blue-800 p-5 text-white space-x-4">
+    <div className="flex items-center p-5 text-white space-x-4">
       <div className="border p-1 rounded-lg">
         {ensAvatar && <img alt="ENS Avatar" src={ensAvatar} />}
         {address && <div>{ensName ? `${ensName} (${address})` : address}</div>}
