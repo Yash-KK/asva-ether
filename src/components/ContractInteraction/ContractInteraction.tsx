@@ -323,7 +323,7 @@ const ContractInteraction: React.FC = () => {
                 }
               />
 
-              {isConnected && (
+              {isConnected && submittedAddress && (
                 <Button
                   isActive
                   onClick={handleFetchBalance}
