@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { CheckCircle, XCircle, Clock, X } from "lucide-react";
-import { useTheme } from "../../../contexts/ThemeContext";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export interface ToastProps {
   id: string;
