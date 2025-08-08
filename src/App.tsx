@@ -15,17 +15,6 @@ function AppContent() {
   const { isDark } = useTheme();
   const [activeTab, setActiveTab] = useState<"contract" | "wallet">("wallet");
 
-  const renderActiveTab = () => {
-    switch (activeTab) {
-      case "contract":
-        return <ContractInteraction />;
-      case "wallet":
-        return <WalletConnect />;
-      default:
-        return <ContractInteraction />;
-    }
-  };
-
   return (
     <div
       className={`min-h-screen transition-colors duration-200 ${
@@ -34,7 +23,15 @@ function AppContent() {
     >
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
 
-      <main className="transition-all duration-300">{renderActiveTab()}</main>
+      <main className="transition-all duration-300">
+        {/* Keep both components mounted but show/hide them */}
+        <div className={activeTab === "contract" ? "block" : "hidden"}>
+          <ContractInteraction />
+        </div>
+        <div className={activeTab === "wallet" ? "block" : "hidden"}>
+          <WalletConnect />
+        </div>
+      </main>
     </div>
   );
 }

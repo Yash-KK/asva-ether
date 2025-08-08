@@ -3,7 +3,6 @@ import {
   Search,
   Send,
   Copy,
-  ExternalLink,
   CheckCircle,
   XCircle,
   Clock,
@@ -34,7 +33,7 @@ const ContractInteraction: React.FC = () => {
   const [amount, setAmount] = useState("");
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined);
   const [transactions, setTransactions] = useState<any[]>([]);
-
+  console.log("transactions: ", transactions);
   const {
     writeContract,
     isPending: isWriting,
@@ -83,7 +82,6 @@ const ContractInteraction: React.FC = () => {
       : [],
   });
 
-  // Watch for Transfer events
   useWatchContractEvent({
     ...wagmiContractConfig,
     address: submittedAddress as `0x${string}`,
@@ -104,7 +102,7 @@ const ContractInteraction: React.FC = () => {
           blockNumber: log.blockNumber,
         };
 
-        setTransactions((prev) => [newTransaction, ...prev.slice(0, 9)]); // Keep last 10 transactions
+        setTransactions((prev) => [newTransaction, ...prev.slice(0, 9)]);
       });
     },
   });
@@ -222,7 +220,17 @@ const ContractInteraction: React.FC = () => {
     }
   };
 
-  // Show success when transaction is confirmed
+  const handleClear = () => {
+    setWalletAddress("");
+    setSubmittedAddress("");
+    setShowBalance(false);
+    setRecipient("");
+    setAmount("");
+    setTxHash(undefined);
+    setTransactions([]);
+    setErrors({});
+  };
+
   React.useEffect(() => {
     if (txReceipt) {
       showToast("success", "Transfer successful!");
@@ -232,7 +240,6 @@ const ContractInteraction: React.FC = () => {
     }
   }, [txReceipt, showToast]);
 
-  // Show success when token info is loaded
   React.useEffect(() => {
     if (data && submittedAddress && !isPending) {
       showToast("success", "Token information retrieved successfully!");
@@ -264,13 +271,19 @@ const ContractInteraction: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Contract Lookup */}
           <div className={`${cardBg} rounded-xl p-6 border shadow-lg`}>
-            <h2 className={`text-xl font-semibold ${textPrimary} mb-4`}>
-              Token Contract Lookup
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className={`text-xl font-semibold ${textPrimary} mb-4`}>
+                Token Contract Lookup
+              </h2>
+              <button
+                onClick={handleClear}
+                className="px-6 py-1 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-medium rounded-lg transition-all duration-200"
+              >
+                Clear
+              </button>
+            </div>{" "}
             <div className="flex space-x-3">
               <div className="flex-1">
                 <input
@@ -323,7 +336,6 @@ const ContractInteraction: React.FC = () => {
             </div>
           )}
 
-          {/* Token Info Card */}
           {submittedAddress && data && (
             <div className={`${cardBg} rounded-xl p-6 border shadow-lg`}>
               <div className="flex items-center justify-between mb-4">
@@ -398,7 +410,6 @@ const ContractInteraction: React.FC = () => {
             </div>
           )}
 
-          {/* Transfer Form */}
           {connectedAddress && submittedAddress && (
             <div className={`${cardBg} rounded-xl p-6 border shadow-lg`}>
               <h2 className={`text-xl font-semibold ${textPrimary} mb-4`}>
@@ -503,9 +514,7 @@ const ContractInteraction: React.FC = () => {
           )}
         </div>
 
-        {/* Right Column */}
         <div className="space-y-6">
-          {/* Balance Display */}
           {showBalance && balance !== undefined && decimals !== undefined && (
             <div className="bg-gradient-to-br from-red-900 to-red-800 rounded-xl p-6 border border-red-700 shadow-lg">
               <h2 className="text-lg font-semibold text-white mb-2">
@@ -520,7 +529,6 @@ const ContractInteraction: React.FC = () => {
             </div>
           )}
 
-          {/* Transaction History */}
           <div className={`${cardBg} rounded-xl p-6 border shadow-lg`}>
             <h2 className={`text-lg font-semibold ${textPrimary} mb-4`}>
               Transaction History
@@ -568,17 +576,6 @@ const ContractInteraction: React.FC = () => {
                           onClick={() => navigator.clipboard.writeText(tx.hash)}
                         >
                           <Copy className="w-4 h-4" />
-                        </button>
-                        <button
-                          className={`p-1 ${textSecondary} hover:${textPrimary} transition-colors`}
-                          onClick={() =>
-                            window.open(
-                              `https://etherscan.io/tx/${tx.hash}`,
-                              "_blank"
-                            )
-                          }
-                        >
-                          <ExternalLink className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
