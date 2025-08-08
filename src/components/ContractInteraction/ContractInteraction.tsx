@@ -1,41 +1,41 @@
-import { useState, useEffect } from "react";
-import {
-  Search,
-  Send,
-  CheckCircle,
-  XCircle,
-  Clock,
-  AlertCircle,
-  Layers3,
-  CircleDollarSign,
-  Hash,
-  BadgePercent,
-  Wallet,
-} from "lucide-react";
+import InfoCard from "@/components/common/info-card";
+import TransactionItem from "@/components/common/transaction-item";
+import Button from "@/components/common/ui/button";
+import Card from "@/components/common/ui/card";
+import Heading from "@/components/common/ui/heading";
+import Input from "@/components/common/ui/input";
+import { wagmiContractConfig } from "@/config/contracts";
+import { cn } from "@/config/helper";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useToast } from "@/contexts/ToastContainer";
-import { wagmiContractConfig } from "@/config/contracts";
 import {
-  useReadContracts,
+  AlertCircle,
+  BadgePercent,
+  CheckCircle,
+  CircleDollarSign,
+  Clock,
+  Hash,
+  Layers3,
+  Search,
+  Send,
+  Wallet,
+  XCircle,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import type { BaseError } from "viem";
+import { formatUnits, parseUnits } from "viem";
+import {
   useAccount,
-  useWriteContract,
+  useReadContracts,
   useWaitForTransactionReceipt,
   useWatchContractEvent,
+  useWriteContract,
 } from "wagmi";
-import { formatUnits, parseUnits } from "viem";
-import type { BaseError } from "viem";
-import Heading from "@/components/common/ui/heading";
-import Button from "@/components/common/ui/button";
-import Input from "@/components/common/ui/input";
-import InfoCard from "@/components/common/info-card";
-import { cn } from "@/config/helper";
-import Card from "@/components/common/ui/card";
-import TransactionItem from "@/components/common/transaction-item";
 
 const ContractInteraction: React.FC = () => {
   const { isDark } = useTheme();
   const { showToast } = useToast();
-  const { address: connectedAddress } = useAccount();
+  const { address: connectedAddress, isConnected } = useAccount();
 
   const [walletAddress, setWalletAddress] = useState("");
   const [submittedAddress, setSubmittedAddress] = useState("");
@@ -323,13 +323,15 @@ const ContractInteraction: React.FC = () => {
                 }
               />
 
-              <Button
-                isActive
-                onClick={handleFetchBalance}
-                label="Get My Balance"
-                disabled={!connectedAddress || !submittedAddress}
-                className="bg-green-800 hover:bg-green-700/50"
-              />
+              {isConnected && (
+                <Button
+                  isActive
+                  onClick={handleFetchBalance}
+                  label="Get My Balance"
+                  disabled={!connectedAddress || !submittedAddress}
+                  className="bg-green-800 hover:bg-green-700/50"
+                />
+              )}
             </div>
             {errors.address && (
               <p className="mt-1 flex items-center space-x-1 text-sm text-red-500">
