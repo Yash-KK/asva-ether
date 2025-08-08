@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
       <div className="grid grid-cols-1 gap-4 px-4 py-3 sm:grid-cols-2 sm:items-center sm:gap-6 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between sm:justify-start sm:space-x-3">
           <div className="flex items-center space-x-2">
-            <Wallet className="h-5 w-5 text-red-800" />
+            <Wallet className="text-red-800" />
             <Heading className="text-red-800" size="xl">
               <span className={cn(textClass)}>Asva</span>Ether
             </Heading>
