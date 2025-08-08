@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Account } from "./components/Account.tsx";
 import { WalletOptions } from "./components/WalletOptions.tsx";
 import { SendTransaction } from "./components/SendTransaction.tsx";
+import { ReadContract } from "./components/ReadContract.tsx";
 
 const queryClient = new QueryClient();
 
@@ -14,6 +15,7 @@ function ConnectWallet() {
       <div className="bg-blue-800">
         <Account />
         <SendTransaction />
+        <ReadContract />
       </div>
     );
   return <WalletOptions />;
