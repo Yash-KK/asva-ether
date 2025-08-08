@@ -38,8 +38,8 @@ A modern React-based Web3 frontend interface to interact with ERC-20 token contr
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/web3-token-dashboard.git
-cd web3-token-dashboard
+https://github.com/Yash-KK/asva-ether.git
+cd asva-ether
 ```
 
 ### 2. Install dependencies
