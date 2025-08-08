@@ -1,9 +1,9 @@
-import React from "react";
-import { Wallet, Search, Moon, Sun } from "lucide-react";
-import { useTheme } from "@/contexts/ThemeContext";
+import Button from "@/components/common/ui/button";
 import Heading from "@/components/common/ui/heading";
 import { cn } from "@/config/helper";
-import Button from "@/components/common/ui/button";
+import { useTheme } from "@/contexts/ThemeContext";
+import { Moon, Search, Sun, Wallet } from "lucide-react";
+import React from "react";
 
 interface HeaderProps {
   activeTab: "contract" | "wallet";

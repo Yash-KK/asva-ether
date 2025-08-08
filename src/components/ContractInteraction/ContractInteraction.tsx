@@ -12,7 +12,7 @@ import {
   BadgePercent,
   Wallet,
 } from "lucide-react";
-import { useTheme } from "../../contexts/ThemeContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { useToast } from "@/contexts/ToastContainer";
 import { wagmiContractConfig } from "@/config/contracts";
 import {
@@ -24,13 +24,13 @@ import {
 } from "wagmi";
 import { formatUnits, parseUnits } from "viem";
 import type { BaseError } from "viem";
-import Heading from "../common/ui/heading";
-import Button from "../common/ui/button";
-import Input from "../common/ui/input";
-import InfoCard from "../common/info-card";
+import Heading from "@/components/common/ui/heading";
+import Button from "@/components/common/ui/button";
+import Input from "@/components/common/ui/input";
+import InfoCard from "@/components/common/info-card";
 import { cn } from "@/config/helper";
-import Card from "../common/ui/card";
-import TransactionItem from "../common/transaction-item";
+import Card from "@/components/common/ui/card";
+import TransactionItem from "@/components/common/transaction-item";
 
 const ContractInteraction: React.FC = () => {
   const { isDark } = useTheme();
