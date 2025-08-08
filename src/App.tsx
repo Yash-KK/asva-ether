@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
-import ContractInteraction from "./components/Contract/ContractInteraction";
+import ContractInteraction from "./components/ContractInteraction/ContractInteraction.tsx";
 import WalletConnect from "./components/Wallet/Wallet";
-import Header from "./components/common/ui/header";
+import Header from "./components/common/header.tsx";
 import ToastContainer from "./contexts/ToastContainer";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -24,7 +24,6 @@ function AppContent() {
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
 
       <main className="transition-all duration-300">
-        {/* Keep both components mounted but show/hide them */}
         <div className={activeTab === "contract" ? "block" : "hidden"}>
           <ContractInteraction />
         </div>

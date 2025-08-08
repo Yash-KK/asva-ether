@@ -10,6 +10,27 @@ import {
   useChains,
   useChainId,
 } from "wagmi";
+import { cn } from "@/config/helper";
+import Heading from "../common/ui/heading";
+import Button from "@/components/common/ui/button";
+import WalletRounded from "@/components/common/ui/wallet-rounded";
+import StepIndicator from "@/components/common/step-indicator";
+import InfoCard from "@/components/common/info-card";
+
+const steps = [
+  {
+    title: "Install Wallet",
+    description: "Install MetaMask or another Web3 wallet",
+  },
+  {
+    title: "Connect",
+    description: "Click the connect button above",
+  },
+  {
+    title: "Start Using",
+    description: "Access all Web3 features",
+  },
+];
 
 const WalletConnect: React.FC = () => {
   const { isDark } = useTheme();
@@ -22,6 +43,7 @@ const WalletConnect: React.FC = () => {
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const balance = useBalance({ address });
+
   const cardBg = isDark
     ? "bg-gray-800 border-gray-700"
     : "bg-white border-gray-200";
@@ -29,169 +51,108 @@ const WalletConnect: React.FC = () => {
   const textSecondary = isDark ? "text-gray-400" : "text-gray-600";
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-red-600 to-red-800 rounded-full mb-4 shadow-lg">
-          <Wallet className="w-8 h-8 text-white" />
-        </div>
-        <h1 className={`text-3xl font-bold ${textPrimary} mb-2`}>
+    <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mb-8 flex flex-col items-center text-center">
+        <WalletRounded />
+        <Heading
+          className={cn(isDark ? "text-white" : "text-black")}
+          size="xl3"
+        >
           Wallet Connection
-        </h1>
-        <p className={textSecondary}>Connect your Web3 wallet to get started</p>
+        </Heading>
+        <p className={cn(textSecondary)}>
+          Connect your Web3 wallet to get started
+        </p>
       </div>
 
-      <div className={`${cardBg} rounded-xl p-8 border shadow-lg`}>
+      <div className={cn("rounded-xl border p-6 shadow-lg sm:p-8", cardBg)}>
         {!isConnected ? (
-          <div className="text-center">
-            <div className="mb-6">
-              <div
-                className={`inline-flex items-center justify-center w-20 h-20 ${
-                  isDark ? "bg-gray-900" : "bg-gray-100"
-                } rounded-full mb-4`}
-              >
-                <Wallet className={`w-10 h-10 ${textSecondary}`} />
-              </div>
-              <h2 className={`text-xl font-semibold ${textPrimary} mb-2`}>
-                No Wallet Connected
-              </h2>
-              <p className={textSecondary}>
-                Connect your wallet to access Web3 features
-              </p>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-4 mb-6">
+          <div className="flex flex-col items-center text-center">
+            <WalletRounded bgClass="bg-gray-900" className="mb-4" size={70} />
+            <Heading
+              className={cn(isDark ? "text-white" : "text-black")}
+              size="xl"
+            >
+              No Wallet Connected
+            </Heading>
+            <p className={cn(textSecondary, "mb-6")}>
+              Connect your wallet to access Web3 features
+            </p>
+            <div className="mb-6 flex flex-wrap justify-center gap-4">
               {connectors.map((connector) => (
-                <button
+                <Button
                   key={connector.uid}
+                  label={connector.name}
+                  icon={<Wallet className="h-5 w-5" />}
                   onClick={() => connect({ connector })}
-                  className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg"
-                >
-                  <Wallet className="w-5 h-5" />
-                  <span>{connector.name}</span>
-                </button>
+                  className="bg-gradient-to-r from-red-600 to-red-800 text-white shadow-lg hover:from-red-700 hover:to-red-800"
+                />
               ))}
             </div>
-
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-              {[1, 2, 3].map((step, idx) => {
-                const titles = ["Install Wallet", "Connect", "Start Using"];
-                const descriptions = [
-                  "Install MetaMask or another Web3 wallet",
-                  "Click the connect button above",
-                  "Access all Web3 features",
-                ];
-                return (
-                  <div key={step}>
-                    <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                      <span className="text-white font-bold">{step}</span>
-                    </div>
-                    <h4 className={`${textPrimary} font-medium mb-2`}>
-                      {titles[idx]}
-                    </h4>
-                    <p className={`${textSecondary} text-sm`}>
-                      {descriptions[idx]}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+            <StepIndicator
+              steps={steps}
+              textPrimary={isDark ? "text-white" : "text-gray-900"}
+              textSecondary={isDark ? "text-gray-400" : "text-gray-600"}
+              stepColor="bg-red-600"
+            />
           </div>
         ) : (
           <div>
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
-                <CheckCircle className="w-10 h-10 text-green-600" />
+            <div className="mb-6 flex flex-col items-center text-center">
+              <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
+                <CheckCircle className="h-10 w-10 text-green-600" />
               </div>
-              <h2 className={`text-xl font-semibold ${textPrimary} mb-2`}>
+              <Heading className={cn(textPrimary)} size="xl">
                 Wallet Connected
-              </h2>
-              <p className="text-green-600 font-medium">
+              </Heading>
+              <p className="font-medium text-green-600">
                 Successfully connected to your wallet
               </p>
             </div>
 
-            <div className="space-y-4 mb-6">
-              <div
-                className={`${
-                  isDark ? "bg-gray-900" : "bg-gray-50"
-                } rounded-lg p-4`}
-              >
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`${textSecondary} flex items-center space-x-2`}
-                  >
-                    <Wallet className="w-4 h-4" />
-                    <span>Wallet Address</span>
+            <div className="mb-6 grid gap-4">
+              <InfoCard
+                icon={<Wallet className="h-4 w-4" />}
+                label="Wallet Address"
+                value={`${address?.slice(0, 6)}...${address?.slice(-4)}`}
+                subtext="Click to copy"
+                isDark={isDark}
+              />
+              <InfoCard
+                icon={<Globe className="h-4 w-4" />}
+                label="Balance"
+                value={`${balance.data?.value} ${balance.data?.symbol}`}
+                subtext={
+                  <span className="inline-flex items-center space-x-1">
+                    <div className="h-2 w-2 rounded-full bg-green-500" />
+                    <span className="text-green-600">Connected</span>
                   </span>
-                  <div className="text-right">
-                    <div className={`${textPrimary} font-mono text-sm`}>
-                      {address?.slice(0, 6)}...{address?.slice(-4)}
-                    </div>
-                    <div className={`${textSecondary} text-xs`}>
-                      Click to copy
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                className={`${
-                  isDark ? "bg-gray-900" : "bg-gray-50"
-                } rounded-lg p-4`}
-              >
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`${textSecondary} flex items-center space-x-2`}
-                  >
-                    <Globe className="w-4 h-4" />
-                    <span>Balance</span>
+                }
+                isDark={isDark}
+              />
+              <InfoCard
+                icon={<Globe className="h-4 w-4" />}
+                label="Network"
+                value={currentChain?.name}
+                subtext={
+                  <span className="inline-flex items-center space-x-1">
+                    <div className="h-2 w-2 rounded-full bg-green-500" />
+                    <span className="text-green-600">Connected</span>
                   </span>
-                  <div className="text-right">
-                    <div className={`${textPrimary} font-medium`}>
-                      {balance.data?.formatted} {balance.data?.symbol}
-                    </div>
-                    <div className="inline-flex items-center space-x-1">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-green-600 text-xs">Connected</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                className={`${
-                  isDark ? "bg-gray-900" : "bg-gray-50"
-                } rounded-lg p-4`}
-              >
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`${textSecondary} flex items-center space-x-2`}
-                  >
-                    <Globe className="w-4 h-4" />
-                    <span>Network</span>
-                  </span>
-                  <div className="text-right">
-                    <div className={`${textPrimary} font-medium`}>
-                      {currentChain?.name}
-                    </div>
-                    <div className="inline-flex items-center space-x-1">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-green-600 text-xs">Connected</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                }
+                isDark={isDark}
+              />
             </div>
 
-            <button
+            <Button
+              label="Disconnect Wallet"
+              icon={<Wallet className="h-5 w-5" />}
               onClick={() => {
                 disconnect();
                 showToast("success", "Wallet disconnected");
               }}
-              className="w-full px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-all duration-200 flex items-center justify-center space-x-2"
-            >
-              <span>Disconnect Wallet</span>
-            </button>
+              className="flex w-full items-center justify-center space-x-2 rounded-lg bg-gray-600 px-6 py-3 font-medium text-white transition-all duration-200 hover:bg-gray-700"
+            />
           </div>
         )}
       </div>
