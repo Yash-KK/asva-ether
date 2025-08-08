@@ -1,21 +1,21 @@
-import React from "react";
-import { Wallet, CheckCircle, Globe } from "lucide-react";
-import { useToast } from "@/contexts/ToastContainer";
+import InfoCard from "@/components/common/info-card";
+import StepIndicator from "@/components/common/step-indicator";
+import Button from "@/components/common/ui/button";
+import Heading from "@/components/common/ui/heading";
+import WalletRounded from "@/components/common/ui/wallet-rounded";
+import { cn } from "@/config/helper";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useToast } from "@/contexts/ToastContainer";
+import { CheckCircle, Globe, Wallet } from "lucide-react";
+import React from "react";
 import {
   useAccount,
   useBalance,
-  useDisconnect,
-  useConnect,
-  useChains,
   useChainId,
+  useChains,
+  useConnect,
+  useDisconnect,
 } from "wagmi";
-import { cn } from "@/config/helper";
-import Heading from "../common/ui/heading";
-import Button from "@/components/common/ui/button";
-import WalletRounded from "@/components/common/ui/wallet-rounded";
-import StepIndicator from "@/components/common/step-indicator";
-import InfoCard from "@/components/common/info-card";
 
 const steps = [
   {

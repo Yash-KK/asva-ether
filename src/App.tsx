@@ -1,13 +1,13 @@
+import ContractInteraction from "@/components/ContractInteraction/ContractInteraction.tsx";
+import WalletConnect from "@/components/Wallet/Wallet";
+import Header from "@/components/common/header.tsx";
+import { ThemeProvider, useTheme } from "@/contexts/ThemeContext";
+import ToastContainer from "@/contexts/ToastContainer";
 import { useState } from "react";
-import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
-import ContractInteraction from "./components/ContractInteraction/ContractInteraction.tsx";
-import WalletConnect from "./components/Wallet/Wallet";
-import Header from "./components/common/header.tsx";
-import ToastContainer from "./contexts/ToastContainer";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { config } from "../config.ts";
 import { WagmiProvider } from "wagmi";
+import { config } from "../config.ts";
 
 const queryClient = new QueryClient();
 

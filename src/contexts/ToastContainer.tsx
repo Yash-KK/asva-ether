@@ -1,5 +1,5 @@
 import Toast, { type ToastProps } from "@/components/common/ui/toast";
-import React, { useState, useCallback } from "react";
+import React, { useCallback, useState } from "react";
 
 interface ToastContainerProps {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ export interface ToastContextType {
 }
 
 export const ToastContext = React.createContext<ToastContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export const useToast = () => {
@@ -29,7 +29,7 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ children }) => {
       const id = Date.now().toString();
       setToasts((prev) => [...prev, { id, type, message }]);
     },
-    []
+    [],
   );
 
   const removeToast = useCallback((id: string) => {
@@ -39,7 +39,7 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ children }) => {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="fixed bottom-4 right-4 z-50 space-y-2">
+      <div className="fixed right-4 bottom-4 z-50 space-y-2">
         {toasts.map((toast) => (
           <Toast key={toast.id} {...toast} onClose={removeToast} />
         ))}

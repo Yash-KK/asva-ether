@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { CheckCircle, XCircle, Clock, X } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { CheckCircle, Clock, X, XCircle } from "lucide-react";
+import React, { useEffect } from "react";
 
 export interface ToastProps {
   id: string;
@@ -23,11 +23,11 @@ const Toast: React.FC<ToastProps> = ({ id, type, message, onClose }) => {
   const getIcon = () => {
     switch (type) {
       case "success":
-        return <CheckCircle className="w-5 h-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-green-500" />;
       case "error":
-        return <XCircle className="w-5 h-5 text-red-500" />;
+        return <XCircle className="h-5 w-5 text-red-500" />;
       case "pending":
-        return <Clock className="w-5 h-5 text-yellow-500 animate-pulse" />;
+        return <Clock className="h-5 w-5 animate-pulse text-yellow-500" />;
     }
   };
 
@@ -40,7 +40,7 @@ const Toast: React.FC<ToastProps> = ({ id, type, message, onClose }) => {
 
   return (
     <div
-      className={`${getBgColor()} border rounded-lg p-4 flex items-center space-x-3 min-w-80 animate-slide-in`}
+      className={`${getBgColor()} animate-slide-in flex min-w-80 items-center space-x-3 rounded-lg border p-4`}
     >
       {getIcon()}
       <p
@@ -58,7 +58,7 @@ const Toast: React.FC<ToastProps> = ({ id, type, message, onClose }) => {
             : "text-gray-500 hover:text-gray-700"
         } transition-colors`}
       >
-        <X className="w-4 h-4" />
+        <X className="h-4 w-4" />
       </button>
     </div>
   );
