@@ -5,7 +5,7 @@ import React from "react";
 interface WalletRoundedProps {
   icon?: React.ReactNode;
   size?: number;
-  bgClass?: string; // Accept any background class (solid or gradient)
+  bgClass?: string;
   className?: string;
 }
 
